@@ -39,39 +39,6 @@ cd wg-easy_npm_autodeploy
 
 ## Запуск скриптов:
 
-### `all_deploy.sh`
-Для автоматической установки `Docker` и `Docker-Compose`, развертывания `WireGuard` и `обратного прокси Nginx` в docker-контейнерах:
-```bash
-sudo ./all_deploy.sh
-```
-
-Во время выполнения скрипта будет предложено задать следующие параметры:
-
-- Поддержка IPv6 (значения `true`/`false`)<br>
-- Имя новой базы данных MySQL для Nginx Proxy Manager<br>
-- Имя пользователя для новой базы данных MySQL Nginx Proxy Manager<br>
-- Пароль для пользователя базы данных MySQL Nginx Proxy Manager<br>
-- Пароль root для базы данных Nginx Proxy Manager<br>
-- Публичный IP-адрес сервера, на котором выполняется скрипт<br>
-- Язык для панели администрирования WireGuard (поддерживаемые значения: `ru`, `en`, `de` и т.д.)<br>
-- Пароль для панели администрирования WireGuard (обязательно сохраните этот пароль)<br>
-<br>
-
-**После установки:** <br>
-Панель администрирования Nginx Proxy Manager: `http://<ВАШ_IP>:81` <br>
-<br>
-Учетные данные по умолчанию:<br>
-Email: `admin@example.com`<br>
-Пароль: `changeme`<br>
-<br>
-Необходимо заменить эти данные на свои после первого входа в систему!<br>
-<br>
-
-Панель администрирования WireGuard: `http://<ВАШ_IP>:51821`<br>
-Необходимо использовать пароль, заданный при выполнении скрипта
-<br>
-
-----
 ### `docker_install.sh`
 Для автоматической установки только `Docker` и `Docker-Compose`
 ```bash
@@ -122,6 +89,14 @@ Email: `admin@example.com`<br>
 <br>
 <br>
 
+----
+### `all_deploy.sh`
+Для автоматической установки `Docker` и `Docker-Compose`, развертывания `WireGuard` и `обратного прокси Nginx` в docker-контейнерах:
+```bash
+sudo ./all_deploy.sh
+```
+<br>
+
 # Очистка
 
 Скрипт автоматически удаляет временные файлы конфигурации и очищает историю команд для повышения безопасности.
@@ -169,39 +144,7 @@ cd wg-easy_npm_autodeploy
 
 ## Run scripts:
 
-### `all_deploy.sh`
-For automatic installation of `Docker` and `Docker Compose`, deploying `WireGuard` and `Nginx Proxy Manager` in docker containers:
-```bash
-sudo ./all_deploy.sh
-```
 
-During the execution of the script, you will be prompted to provide the following parameters:
-
-- IPv6 support (values: `true`/`false`)<br>
-- New MySQL database name for Nginx Proxy Manager<br>
-- New MySQL username for Nginx Proxy Manager<br>
-- Password of user for MySQL database of Nginx Proxy Manager<br>
-- Password of root for MySQL database of Nginx Proxy Manager<br>
-- Public IP address of the server where the script is running<br>
-- Language for the WireGuard admin panel (supported values: `ru`, `en`, `de` и т.д.)<br>
-- Password for the WireGuard admin panel  (be sure to save this password!)<br>
-<br>
-
-**After Installation:** <br>
-Nginx Proxy Manager Admin Panel: `http://<your-ip>:81` <br>
-<br>
-Default Credentials:<br>
-Email: `admin@example.com`<br>
-Password: `changeme`<br>
-<br>
-Make sure to replace these with your own after the first login!<br>
-<br>
-
-WireGuard Admin Panel: `http://<your-ip>:51821`<br>
-You need to use the password set during the script execution.
-<br>
-
-----
 ### `docker_install.sh`
 For automatic installation of only `Docker` and `Docker-Compose`
 ```bash
@@ -251,6 +194,15 @@ Password: `changeme`<br>
 Make sure to replace these with your own after the first login!<br>
 <br>
 <br>
+
+----
+### `all_deploy.sh`
+For automatic installation of `Docker` and `Docker Compose`, deploying `WireGuard` and `Nginx Proxy Manager` in docker containers:
+```bash
+sudo ./all_deploy.sh
+```
+
+----
 
 # Cleanup
 
