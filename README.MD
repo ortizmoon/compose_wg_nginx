@@ -1,6 +1,6 @@
 # RU
 
-# Быстрая установка и настройка Docker, WireGuard и Nginx Proxy Manager
+# Быстрая установка Docker, WireGuard и Nginx Proxy Manager
 Данный репозиторий содержит набор скриптов, которые автоматизируют установку и настройку Docker, `WireGuard и Обратный прокси Nginx, с использованием Docker-Compose. <br>
 Подходит для тестов, небольших домашних проектов.<br>
 Сервисы разворачиваются в docker-контейнерах, включая базы данных и конфигурации окружения.<br>
@@ -12,15 +12,14 @@
 
 - [`nginx-proxy-manager`](https://github.com/NginxProxyManager/nginx-proxy-manager) от [`jc21`](https://github.com/jc21)
 <br>
-
+----
+<br>
 ## Скрипты
 `docker_install.sh` устанавливает Docker и Docker Compose.<br>
 
 `wg-easy_deploy.sh` настраивает VPN WireGuard с простым веб-интерфейсом.<br>
 
 `npm_deploy.sh` разворачивает Nginx Proxy Manager для управления SSL-сертификатами и проксированием, и настраивает его с использованием MySQL.
-
-`all_deploy.sh`: включает в себя все остальные скрипты, и рекомендуется для полной установки всех контейнеров.<br>
 <br>
 
 <br>
@@ -50,10 +49,13 @@ sudo ./wg-easy_deploy.sh
 <br>
 
 Во время выполнения скрипта будет предложено задать следующие параметры:<br>
+
 - Публичный IP-адрес сервера, на котором выполняется скрипт<br>
-- Язык для панели администрирования WireGuard (поддерживаемые значения: `ru`, `en`, `de` и т.д.)<br>
+- DNS-сервер по умолчанию
+- Язык панели администрирования WireGuard (поддерживаемые значения: `ru`, `en`, `de` и т.д.)<br>
+- Включение поддержки времени истечения клиентов
+- Включение метрик для мониторинга (Prometheus)
 - Пароль для панели администрирования WireGuard (необходимо обязательно сохранить этот пароль)<br>
-<br>
 
 **После установки:** <br>
 Панель администрирования WireGuard: `http://<ВАШ_IP>:51821`
@@ -62,7 +64,7 @@ sudo ./wg-easy_deploy.sh
 
 ----
 ### `npm_deploy.sh`
-Для автоматического развертывания только `обратного прокси Nginx` в docker-контейнере:
+Для автоматического развертывания `обратного прокси Nginx` в docker-контейнере:
 ```bash
 sudo ./npm_deploy.sh
 ```
@@ -86,11 +88,6 @@ Email: `admin@example.com`<br>
 <br>
 
 ----
-### `all_deploy.sh`
-Для автоматической установки `Docker` и `Docker-Compose`, развертывания `WireGuard` и `обратного прокси Nginx` в docker-контейнерах:
-```bash
-sudo ./all_deploy.sh
-```
 <br>
 
 # Очистка
@@ -104,7 +101,7 @@ sudo ./all_deploy.sh
 
 # EN
 
-# Quick Installation and Configuration of Docker, WireGuard, and Nginx Proxy Manager
+# Quick Installation of Docker, WireGuard, and Nginx Proxy Manager
 This repository contains a set of scripts that automate the installation and configuration of Docker, WireGuard, and Nginx Proxy Manager using Docker Compose. The services are deployed in Docker containers, including databases and environment configurations.
 ____
 ### The Docker images are taken from projects:<br>
@@ -120,7 +117,6 @@ ____
 
 `npm_deploy.sh` deploying Nginx Proxy Manager for managing SSL certificates and proxying, and configures it using MySQL.
 
-`all_deploy.sh` includes all other scripts and is recommended for a complete installation of all containers.<br>
 <br>
 
 <br>
@@ -185,13 +181,6 @@ Password: `changeme`<br>
 Make sure to replace these with your own after the first login!<br>
 <br>
 <br>
-
-----
-### `all_deploy.sh`
-For automatic installation of `Docker` and `Docker Compose`, deploying `WireGuard` and `Nginx Proxy Manager` in docker containers:
-```bash
-sudo ./all_deploy.sh
-```
 
 ----
 

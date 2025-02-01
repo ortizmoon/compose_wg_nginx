@@ -1,15 +1,23 @@
 #!/bin/bash
 
-###### Deploy nginx-proxy-manager image (founded on GitHub by @nginxproxymanager) from docker-compose file
+# Env input
+read -p "Disable IPv6 support (values true/false): " IPV6_STATUS_VALUE
+read -p "Enter new MySQL database name: " MYSQL_BASE_VALUE
+read -p "Enter new MySQL database username: " MYSQL_BASE_USER
+read -s -p "Enter password of new MySQL database user: " MYSQL_BASE_PASS; echo
+read -s -p "Enter new SQL root password: " MYSQL_ROOT_PASS; echo
 
-# Data input
-read -p "Disable IPv6 support (values true/false): " 'ipv6_status_value'
-read -p "Enter the name of the new MySQL database: " 'mysql_base_value'
-read -p "Enter the username of the new MySQL database: " 'mysql_base_user'
-read -p "Enter the password of the new MySQL database user: " 'mysql_base_pass'
-read -p "Enter the root SQL password: " 'mysql_root_pass'
+# Create .env file
+cat <<EOF > .env
+DB_MYSQL_USER=$MYSQL_BASE_USER
+DB_MYSQL_PASSWORD=$MYSQL_BASE_PASS
+DB_MYSQL_NAME=$MYSQL_BASE_VALUE
+DISABLE_IPV6=$IPV6_STATUS_VALUE
+MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASS
+EOF
+
+# Autocreate docker-compose file
 cat <<EOF > docker-compose.yaml
-version: '3.8'
 services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -21,10 +29,10 @@ services:
     environment:
       DB_MYSQL_HOST: 'db'
       DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: '$mysql_base_user'
-      DB_MYSQL_PASSWORD: '$mysql_base_pass'
-      DB_MYSQL_NAME: '$mysql_base_value'
-      DISABLE_IPV6: '$ipv6_status_value'
+      DB_MYSQL_USER: \${DB_MYSQL_USER}
+      DB_MYSQL_PASSWORD: \${DB_MYSQL_PASSWORD}
+      DB_MYSQL_NAME: \${DB_MYSQL_NAME}
+      DISABLE_IPV6: \${DISABLE_IPV6}
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
@@ -35,26 +43,25 @@ services:
     image: 'jc21/mariadb-aria:latest'
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: '$mysql_root_pass'
-      MYSQL_DATABASE: '$mysql_base_value'
-      MYSQL_USER: '$mysql_base_user'
-      MYSQL_PASSWORD: '$mysql_base_pass'
+      MYSQL_ROOT_PASSWORD: \${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: \${DB_MYSQL_NAME}
+      MYSQL_USER: \${DB_MYSQL_USER}
+      MYSQL_PASSWORD: \${DB_MYSQL_PASSWORD}
       MARIADB_AUTO_UPGRADE: '1'
     volumes:
       - ./mysql:/var/lib/mysql
 EOF
 
 # Deployment
-docker-compose up -d
+sudo docker compose --env-file .env up -d
 
-# Clean
-rm -r docker-compose*
-history -c
+# Clean sensitive data
+shred -u .env
+shred -u docker-compose.yaml
+history -c && history -w
 
-### ATTENTION
-echo "Default data for npm:"
+# ATTENTION
+echo "Admin panel: <your-server-ip:81>"
+echo "Default cred for Nginx Proxy Manager:"
 echo "Email:    admin@example.com"
 echo "Password: changeme"
-echo "MAKE SURE TO REPLACE THEM WITH YOURS"
-
-######

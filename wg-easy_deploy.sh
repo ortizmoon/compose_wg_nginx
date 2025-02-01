@@ -1,22 +1,31 @@
 #!/bin/bash
 
-###### Deploying the wg-easy image (founded by @WeeJeWel) from a docker-compose file
+# Env input
+read -p "Enter your server public IP:" WG_HOST_VALUE
+read -p "Enter DNS IP:" WG_DNS_VALUE
+read -p "Select language for admin panel (supported values: ru, en, de, etc.):" WG_LANG_VALUE
+read -p "Enable expire time for clients (values true/false):" WG_EXPIRES_TIME_VALUE
+read -p "Enable Prometheus metrics (values true/false):" WG_METRICS_VALUE
+read -s -p "Enter password for admin panel (WARNING! Save this pass!):" PASS_VALUE
 
-# Data input
-read -p "Enter the public IP address of the server where this script is running: " wg_host_value
-read -p "Select the language for the future WireGuard admin panel (supported values like ru, en, de, etc.): " wg_lang_value
-read -p "Enter the password for the future WireGuard admin panel (WARNING! Save this pass!): " wg_pass_value
+# Hash the password using the wgpw script inside the Docker container
+HASHED_PASSWORD=$(docker run --rm -it ghcr.io/wg-easy/wg-easy wgpw "$PASS_VALUE" | awk -F"'" '{print "$" $2}')
+
+# Autocreate docker-compose file
 cat <<EOF > docker-compose.yaml
-version: "3.8"
 volumes:
   etc_wireguard:
 
 services:
   wg-easy:
     environment:
-      - LANG=$wg_lang_value
-      - WG_HOST=$wg_host_value
-      - PASSWORD=$wg_pass_value
+      - LANG=${WG_LANG_VALUE}
+      - WG_HOST=${WG_HOST_VALUE}
+      - PASSWORD_HASH=${HASHED_PASSWORD}
+      - WG_DEFAULT_DNS=${WG_DNS_VALUE}
+      - WG_ENABLE_EXPIRES_TIME=${WG_EXPIRES_TIME_VALUE}
+      - ENABLE_PROMETHEUS_METRICS=${WG_METRICS_VALUE}
+      - UI_ENABLE_SORT_CLIENTS=true
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
     volumes:
@@ -34,9 +43,12 @@ services:
 EOF
 
 # Deployment
-docker-compose up -d
+sudo docker compose up -d
 
-# Clean
-rm -r docker-compose*
-history -c
-######
+# Clean sensitive data
+shred -u docker-compose.yaml
+history -c && history -w
+
+# ATTENTION
+echo "Admin panel: http://$WG_HOST_VALUE:51821"
+echo "Make sure to save your WireGuard Admin panel password!"
