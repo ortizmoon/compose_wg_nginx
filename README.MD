@@ -14,7 +14,7 @@
 <br>
 ----
 <br>
-## Скрипты
+## Скрипты<br>
 `docker_install.sh` устанавливает Docker и Docker Compose.<br>
 
 `wg-easy_deploy.sh` настраивает VPN WireGuard с простым веб-интерфейсом.<br>
