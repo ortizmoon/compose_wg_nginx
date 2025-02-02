@@ -22,11 +22,6 @@
 `all_deploy.sh`: включает в себя все остальные скрипты, и рекомендуется для полной установки всех контейнеров.<br>
 <br>
 
-## Требования к окружению
-
-Перед запуском скрипта необходимо:
-- Убедиться, что у ноды есть доступ к интернету.
-- Имеются привилегии, позволяющие выполнять загрузку и установку пакетов, а так же запуск скриптов.
 <br>
 
 # Использование
@@ -127,11 +122,6 @@ ____
 `all_deploy.sh` includes all other scripts and is recommended for a complete installation of all containers.<br>
 <br>
 
-## Requirements
-
-Before running the script:
-- The node has access to the internet.
-- You have privileges for download and install packages, as well as to run scripts.
 <br>
 
 # Usage
