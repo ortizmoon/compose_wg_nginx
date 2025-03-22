@@ -34,13 +34,16 @@ Docker, WireGuard и Обратный прокси Nginx, с использов�
 git clone git@github.com:ortizmoon/wg-easy_npm_autodeploy.git
 cd wg-easy_npm_autodeploy
 ```
-
 ## Запуск скриптов:
 
 ### `docker_install.sh`
 Для автоматической установки только `Docker` и `Docker-Compose`
 ```bash
 sudo ./docker_install.sh
+```
+Либо
+```bash
+sh <(wget -O - https://raw.githubusercontent.com/ortizmoon/compose_wg_nginx/master/docker_install.sh)
 ```
 
 ----
